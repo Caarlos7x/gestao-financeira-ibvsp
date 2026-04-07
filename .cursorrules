@@ -1,0 +1,668 @@
+# Cursor Rules — Scalable Financial Platform
+
+## Objective
+
+This document defines the engineering rules, coding standards, architectural constraints, and implementation guidelines that Cursor must follow while helping build a **scalable multi-company financial platform**.
+
+The platform should support financial management workflows such as:
+
+* accounts payable
+* cost center management
+* budget control
+* asset control
+* allocations and split rules
+* company financial organization
+
+The main technical constraint is to build a **complete but simple system**, with **minimal or near-zero infrastructure cost**, using free or low-cost services whenever possible.
+
+---
+
+## Product Vision
+
+The system must be designed as a **generic financial platform** that can serve different companies with different internal processes.
+
+Cursor must always think in terms of:
+
+* multi-tenant readiness
+* modular architecture
+* feature scalability
+* maintainability
+* low operational cost
+* clean and extensible domain modeling
+
+The implementation must avoid solutions that only work for a single company or a single hardcoded workflow.
+
+---
+
+## Core Technical Stack
+
+Cursor must prioritize the following stack:
+
+* **Frontend:** React
+* **Language:** TypeScript
+* **Authentication:** Firebase Authentication
+* **Data / low-cost persistence:** Google Sheets and Google APIs as an initial persistence layer
+* **Optional backend layer:** lightweight backend only when strictly necessary
+* **Architecture mindset:** system design first, scalable domain modeling, feature modularization
+
+Preferred frontend ecosystem:
+
+* React with TypeScript
+* component-based architecture
+* reusable UI primitives
+* typed service layer
+* strong form validation
+* clear separation of concerns
+
+---
+
+## Non-Negotiable Engineering Principles
+
+Cursor must always generate code as if written by a **senior engineer**.
+
+That means:
+
+* clean and consistent naming
+* no quick hacks
+* no duplicated logic
+* no overly coupled components
+* no business rules buried inside UI code
+* no ambiguous variables
+* no mixed languages in code
+* no unnecessary comments
+* no fragile abstractions
+* no hardcoded magic values without clear intent
+
+All code must be:
+
+* readable
+* typed
+* modular
+* maintainable
+* predictable
+* testable when applicable
+* easy for a team to scale later
+
+---
+
+## Language and Naming Conventions
+
+All code, folders, files, variables, functions, interfaces, types, enums, constants, and comments must be written in **English**.
+
+### Rules
+
+* Never generate code with Portuguese identifiers
+* Use descriptive names instead of short generic names
+* Avoid names like `data`, `info`, `handleStuff`, `temp`, `value2`
+* Prefer intention-revealing names
+
+### Good examples
+
+* `createCostCenter`
+* `budgetAllocationService`
+* `accountsPayableRepository`
+* `companySettingsForm`
+* `financialTransactionValidator`
+
+### Bad examples
+
+* `criarCentro`
+* `dadosPlanilha`
+* `fnTest`
+* `item2`
+* `handleAny`
+
+---
+
+## Architecture Guidelines
+
+Cursor must follow a **feature-oriented and scalable architecture**.
+
+### Mandatory principles
+
+* separate business rules from UI
+* separate integration logic from domain logic
+* keep components focused on presentation and interaction
+* keep services responsible for API / external integrations
+* centralize types and contracts when shared
+* avoid circular dependencies
+* avoid giant files
+* prefer composition over monolithic components
+
+### Suggested high-level structure
+
+```txt
+src/
+  app/
+  components/
+    ui/
+    shared/
+  features/
+    authentication/
+    companies/
+    cost-centers/
+    budgets/
+    allocations/
+    assets/
+    accounts-payable/
+    dashboards/
+    settings/
+  services/
+    firebase/
+    google-sheets/
+    api/
+  hooks/
+  utils/
+  types/
+  constants/
+  schemas/
+```
+
+### Feature structure suggestion
+
+```txt
+features/accounts-payable/
+  components/
+  hooks/
+  services/
+  types/
+  schemas/
+  utils/
+  pages/
+```
+
+---
+
+## Domain Design Guidelines
+
+Cursor must model the product for **future growth**.
+
+Even if Google Sheets is used initially, the domain should already be prepared for future migration to a real database.
+
+### Core entities to consider
+
+* Company
+* User
+* Role
+* CostCenter
+* Budget
+* BudgetPeriod
+* AllocationRule
+* Asset
+* Supplier
+* PayableAccount
+* FinancialTransaction
+* Category
+* ApprovalFlow
+* Attachment
+* AuditLog
+
+### Domain rules
+
+* Each company must have isolated data boundaries
+* Cost centers must belong to a company
+* Budgets must be versionable or period-based
+* Allocation rules must support percentages and traceability
+* Accounts payable should support status lifecycle
+* Assets must support ownership, classification, and current status
+* Every important financial action should be traceable
+
+Cursor must think beyond CRUD and anticipate domain evolution.
+
+---
+
+## Multi-Tenant Mindset
+
+The platform should be built with multi-company support from the beginning.
+
+### Rules
+
+* Every relevant entity must include `companyId`
+* Never assume a single company context globally without explicit selection
+* Filters, queries, services, and validation must respect tenant isolation
+* Shared components must be generic and tenant-agnostic
+* Authentication and authorization must consider user-company relationship
+
+Even with Google Sheets as a storage layer, data organization must be tenant-aware.
+
+---
+
+## Data Persistence Strategy
+
+The initial goal is to minimize infrastructure costs.
+
+### Allowed initial approach
+
+Use **Google Sheets as a lightweight database substitute** for MVP or early-stage versions.
+
+### Rules for Google Sheets usage
+
+* Sheets must not contain business logic
+* Sheets are only a persistence mechanism
+* The application layer must validate and transform data
+* Each sheet tab must represent a clear domain concern
+* Column names must be normalized and documented
+* Create mapping layers between sheet rows and domain models
+* Never spread raw sheet response parsing across the UI
+
+### Recommended tabs
+
+* companies
+* users
+* cost_centers
+* budgets
+* allocations
+* assets
+* accounts_payable
+* suppliers
+* audit_logs
+
+### Important constraint
+
+Cursor must write code in a way that allows future migration from Google Sheets to Firebase Firestore, Supabase, PostgreSQL, or another real database with minimal refactor.
+
+This means:
+
+* use repository-like abstractions
+* isolate integration adapters
+* avoid coupling features directly to Sheets response format
+
+---
+
+## Authentication and Access Control
+
+Authentication must use **Firebase Authentication**.
+
+### Rules
+
+* Use Firebase Auth for login flow
+* Prefer secure session handling patterns
+* Never expose secrets in frontend code
+* Use environment variables correctly
+* Authorization rules must be modeled in the app layer
+* Roles and permissions must be explicit
+
+### Suggested roles
+
+* admin
+* finance_manager
+* analyst
+* approver
+* viewer
+
+Cursor must separate:
+
+* authentication: who the user is
+* authorization: what the user can do
+
+---
+
+## Backend Strategy
+
+The project should stay as lightweight as possible.
+
+### Preferred approach
+
+Start with frontend + Firebase Auth + Google Sheets integration.
+
+### When a backend is justified
+
+Only introduce a backend layer when there is a clear need for:
+
+* secret protection
+* secure Google API access
+* server-side validation
+* approval orchestration
+* scheduled jobs
+* audit enforcement
+* file processing
+
+### If backend is needed
+
+Preferred style:
+
+* minimal API layer
+* strongly typed contracts
+* modular services
+* no bloated monolith
+* no premature microservices
+
+A simple Node.js or serverless layer is acceptable if it protects credentials and improves security.
+
+---
+
+## Frontend Engineering Standards
+
+Cursor must create a professional React codebase.
+
+### Component rules
+
+* Components must be small and reusable
+* Separate smart and dumb responsibilities when beneficial
+* Avoid giant page components with all logic inline
+* Extract repeated patterns into reusable components
+* Prefer controlled abstractions, not overengineering
+* UI components must not own core business rules
+
+### Form rules
+
+* Use typed form models
+* Validate inputs consistently
+* Keep validation schema outside the JSX when possible
+* Normalize and sanitize user input
+* Display clear validation and error states
+
+### State rules
+
+* Keep local state local
+* Share state only when needed
+* Avoid prop drilling when composition or context is more appropriate
+* Do not create global state for feature-local concerns
+
+### Data fetching rules
+
+* Centralize integration logic in services or hooks
+* Handle loading, empty, success, and error states explicitly
+* Never fetch directly inside deeply nested presentational components
+
+---
+
+## TypeScript Standards
+
+TypeScript must be used properly, not superficially.
+
+### Mandatory rules
+
+* Avoid `any`
+* Avoid unsafe type assertions unless strictly necessary
+* Prefer explicit types for domain models
+* Use `type` or `interface` consistently
+* Type all service inputs and outputs
+* Type component props explicitly
+* Use enums or union types when meaningful
+* Keep types close to the domain they belong to
+
+### Forbidden patterns
+
+* `any`
+* `as any`
+* blind casting
+* untyped API responses flowing through the app
+* generic object bags without structure
+
+---
+
+## Clean Code Rules
+
+Cursor must follow clean code principles.
+
+### Rules
+
+* One function should have one clear responsibility
+* Functions must be short when possible
+* Complex conditions should be extracted into named helpers
+* Avoid nested logic when guard clauses improve readability
+* Prefer explicitness over cleverness
+* Reduce cognitive load
+* Keep files focused
+
+### Code quality expectations
+
+* readable names
+* clear flow
+* no dead code
+* no commented-out code
+* no console logs left in production code
+* no duplicated validation logic
+
+---
+
+## System Design Expectations
+
+Cursor must always reason about the system as a real product, not just isolated screens.
+
+### Must consider
+
+* scalability of entities and workflows
+* role-based access
+* modular feature growth
+* auditability
+* future database migration
+* reporting needs
+* import/export needs
+* approval flows
+* attachment support
+* observability and maintainability
+
+### Must avoid
+
+* tightly coupling UI to storage
+* creating a one-off structure for a single use case
+* baking spreadsheet constraints into the entire domain
+* premature complexity without business value
+
+---
+
+## Financial Platform Functional Scope
+
+Cursor should keep the platform ready to support modules such as:
+
+### 1. Company management
+
+* register companies
+* manage settings by company
+* define permissions and team members
+
+### 2. Cost center management
+
+* create and edit cost centers
+* assign ownership
+* associate transactions and budgets
+
+### 3. Budget control
+
+* planned vs actual values
+* budget by period
+* budget tracking per cost center
+* over-budget warnings
+
+### 4. Allocation / split rules
+
+* percentage-based allocation
+* multi-cost-center split
+* reusable allocation rules
+* traceability of applied rules
+
+### 5. Asset management
+
+* asset registration
+* category and ownership
+* acquisition date and value
+* status lifecycle
+
+### 6. Accounts payable
+
+* supplier registration
+* invoice / payable registration
+* due date control
+* payment status tracking
+* approval flow possibility
+
+### 7. Bank reconciliation
+
+* import bank statements (manual or via integration)
+* match transactions with system records
+* identify discrepancies
+* reconciliation status tracking
+* support partial and automatic matching rules
+
+### 8. Church general report
+
+* consolidated financial overview
+* income vs expenses
+* reports by period
+* dashboards for leadership visibility
+* exportable reports (PDF/CSV)
+
+### 9. Ministry management
+
+* register ministries (departments)
+* assign leaders and members
+* track financial usage per ministry
+* link ministries to cost centers
+
+### 10. Church financial management
+
+* track general church expenses
+* categorize expenses (maintenance, events, operations)
+* monitor recurring expenses
+* manage operational costs centrally
+
+### 11. Investments management
+
+* register investments (fixed income, funds, etc.)
+* track profitability over time
+* associate investments with company or church entity
+* monitor performance and historical evolution
+
+### 12. Audit and history
+
+* record key actions
+* support accountability and traceability
+
+---
+
+## Security and Environment Rules
+
+### Rules
+
+* Never hardcode credentials
+* Always use environment variables
+* Never expose private API keys in client-side code
+* Sensitive integration logic should be server-side when necessary
+* Validate user input before persistence
+* Sanitize imported or external data
+
+### Firebase and Google integration
+
+* Public client config may exist when appropriate
+* Private service credentials must never be exposed in frontend code
+* If Sheets write access requires secrets, use a protected backend endpoint
+
+---
+
+## Error Handling Standards
+
+Cursor must never ignore errors.
+
+### Rules
+
+* Handle external integration failures explicitly
+* Show user-friendly messages in UI
+* Keep technical details out of the UI when unnecessary
+* Log errors in a structured way when applicable
+* Create clear fallback behavior for empty or failed requests
+
+---
+
+## UX and Product Consistency
+
+The platform should be simple, professional, and easy to operate.
+
+### Rules
+
+* Use predictable layouts
+* Keep forms objective
+* Avoid visual clutter
+* Prefer reusable table, modal, form, badge, and card patterns
+* Use clear financial terminology
+* Keep interaction flows efficient
+* Design for internal business users who need speed and clarity
+
+Cursor should favor operational usability over decorative complexity.
+
+---
+
+## Testing Mindset
+
+Even if the first version is lean, Cursor must write code that is testable.
+
+### Rules
+
+* Keep business logic outside components when possible
+* Extract pure functions for calculations and transformations
+* Validate critical financial calculations carefully
+* Prefer deterministic functions for allocations and budget math
+
+Priority test targets:
+
+* allocation calculations
+* budget balance calculations
+* transformation from Sheets rows to typed models
+* permission rules
+* payable status transitions
+
+---
+
+## Performance Guidelines
+
+### Rules
+
+* Avoid unnecessary re-renders
+* Memoize only when there is real benefit
+* Keep lists and tables efficient
+* Avoid heavy client-side transformations inside render
+* Normalize data before passing to components
+* Be careful with spreadsheet-based integrations to avoid excessive reads/writes
+
+---
+
+## Code Generation Constraints for Cursor
+
+Cursor must obey the following rules in every generated code snippet:
+
+1. Always use English naming.
+2. Always use TypeScript.
+3. Always prefer React component composition.
+4. Always separate UI, services, and domain concerns.
+5. Always think in a scalable multi-company model.
+6. Always avoid `any`.
+7. Always structure code as if it will grow into a production platform.
+8. Always prefer reusable abstractions over duplicated logic.
+9. Always keep Google Sheets isolated behind adapters or services.
+10. Always write code as if reviewed by a senior engineer.
+11. Never hardcode company-specific rules unless explicitly required.
+12. Never place business rules directly inside JSX.
+13. Never expose secrets in frontend code.
+14. Never generate code in Portuguese.
+15. Never create architecture that depends forever on spreadsheets.
+
+---
+
+## Recommended Delivery Mindset
+
+When implementing any feature, Cursor should think in this order:
+
+1. Understand the business domain
+2. Model the entities and rules
+3. Define the data contract
+4. Separate domain, integration, and presentation layers
+5. Build reusable typed components
+6. Keep the solution simple, but ready to evolve
+
+---
+
+## Final Instruction for Cursor
+
+Act as a senior software engineer helping build a scalable, modular, multi-company financial platform with minimal infrastructure cost.
+
+Every decision must balance:
+
+* simplicity
+* maintainability
+* scalability
+* low cost
+* code quality
+* future evolution
+
+The generated code must look production-oriented from the beginning, even if the initial persistence layer uses free tools such as Firebase Authentication and Google Sheets.

@@ -1,0 +1,31 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dot {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-xs);
+}
+
+.green {
+  background: #16a34a;
+}
+
+.yellow {
+  background: #ca8a04;
+}
+
+.red {
+  background: #dc2626;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}

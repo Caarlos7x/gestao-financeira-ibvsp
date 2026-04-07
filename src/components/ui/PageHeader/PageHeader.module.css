@@ -1,0 +1,8 @@
+.root {
+  margin-bottom: var(--space-5);
+}
+
+.lead {
+  margin-top: var(--space-2);
+  max-width: none;
+}

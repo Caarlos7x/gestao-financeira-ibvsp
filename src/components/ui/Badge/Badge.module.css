@@ -1,0 +1,10 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: var(--space-0-5) var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--color-accent-muted);
+  color: #5c54a8;
+}
