@@ -106,4 +106,21 @@ export const UI_MESSAGES_PT_BR = {
   entriesCardMinistry: 'Ministério',
   entriesCardInvestment: 'Investimento',
   entriesCardBankLine: 'Linha de extrato (conciliação)',
+  dashboardChartsSectionTitle: 'Movimentações em gráficos',
+  dashboardChartsSectionLead:
+    'Receitas e despesas a partir dos movimentos financeiros e das despesas operacionais da igreja (mesma base do relatório geral).',
+  dashboardChartMonthlyTitle: 'Fluxo por mês',
+  dashboardChartMonthlySubtitle: 'Receitas, despesas em lançamentos e despesas da igreja',
+  dashboardChartDistributionTitle: 'Distribuição acumulada',
+  dashboardChartDistributionSubtitle: 'Totais de receita e despesa no período carregado',
+  dashboardChartCostCenterTitle: 'Despesas por centro de custo',
+  dashboardChartCostCenterSubtitle: 'Somente despesas dos lançamentos financeiros com centro informado',
+  dashboardChartNoMovements:
+    'Não há movimentações para exibir. Cadastre lançamentos em Lançamentos ou aguarde novos dados.',
+  dashboardChartNoCostCenterExpense:
+    'Nenhuma despesa de lançamento vinculada a centro de custo.',
+  dashboardLegendIncome: 'Receitas',
+  dashboardLegendExpenseTx: 'Despesas (lançamentos)',
+  dashboardLegendChurchExpense: 'Despesas (igreja)',
+  dashboardLegendTotalExpense: 'Despesas totais',
 } as const;

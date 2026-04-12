@@ -7,8 +7,12 @@
   font-weight: 600;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease,
-    background 0.15s ease, color 0.15s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .root:active:not(:disabled) {
@@ -27,45 +31,55 @@
 
 .primary {
   border: none;
-  color: #fff;
-  background: linear-gradient(
-    135deg,
-    #9b9bed 0%,
-    #b4a3f0 55%,
-    #c4b5fd 100%
-  );
+  color: var(--color-button-primary-text);
+  background: var(--color-button-primary-bg);
   box-shadow: var(--shadow-button);
 }
 
 .primary:hover:not(:disabled) {
-  filter: brightness(1.04);
+  background: var(--color-button-primary-bg-hover);
   box-shadow: var(--shadow-button-hover);
+}
+
+.primary:focus-visible {
+  outline: var(--space-px) solid var(--color-button-primary-bg-hover);
+  outline-offset: var(--space-1);
 }
 
 .primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   box-shadow: none;
-  filter: grayscale(0.2);
 }
 
 .ghost {
   border: none;
-  color: var(--color-accent);
+  color: var(--color-button-ghost-text);
   background: transparent;
 }
 
 .ghost:hover:not(:disabled) {
-  background: var(--color-accent-soft);
+  background: var(--color-button-ghost-bg-hover);
+}
+
+.ghost:focus-visible {
+  outline: var(--space-px) solid var(--color-accent);
+  outline-offset: var(--space-1);
 }
 
 .outline {
-  border: var(--space-px) solid var(--color-border-strong);
-  color: var(--color-text);
-  background: var(--color-surface);
+  border: var(--space-px) solid var(--color-button-outline-border);
+  color: var(--color-button-outline-text);
+  background: var(--color-button-outline-bg);
 }
 
 .outline:hover:not(:disabled) {
-  border-color: var(--color-accent);
+  border-color: var(--color-button-outline-border-hover);
+  background: var(--color-button-outline-bg-hover);
   box-shadow: 0 0 0 var(--space-1) var(--color-accent-soft);
+}
+
+.outline:focus-visible {
+  outline: var(--space-px) solid var(--color-accent);
+  outline-offset: var(--space-1);
 }

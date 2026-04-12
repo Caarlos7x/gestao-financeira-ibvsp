@@ -1,7 +1,7 @@
 import { UI_MESSAGES_PT_BR } from '@/constants/uiMessagesPtBR';
 import { useAuthContext } from '@/context/AuthContext';
 import { useCompanyContext } from '@/context/CompanyContext';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/buttons';
 import { useCurrentNavItem } from '@/features/app-shell/hooks/useCurrentNavItem';
 import { formatHeaderPersonName } from '@/features/app-shell/utils/formatHeaderPersonName';
 import { getUserInitials } from '@/features/app-shell/utils/getUserInitials';

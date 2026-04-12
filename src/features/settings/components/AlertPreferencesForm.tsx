@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/buttons';
 import { Text } from '@/components/ui/Text';
 import { UI_MESSAGES_PT_BR } from '@/constants/uiMessagesPtBR';
 import type { FinancialAlertPreferences } from '@/types/domain';

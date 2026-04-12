@@ -1,6 +1,6 @@
 import { useAuthContext } from '@/context/AuthContext';
 import { loginFormSchema, type LoginFormValues } from '@/features/authentication/schemas/loginFormSchema';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/buttons';
 import { Card } from '@/components/ui/Card';
 import { Text } from '@/components/ui/Text';
 import { UI_MESSAGES_PT_BR } from '@/constants/uiMessagesPtBR';

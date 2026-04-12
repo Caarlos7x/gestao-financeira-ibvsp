@@ -1,7 +1,7 @@
 import { UI_MESSAGES_PT_BR } from '@/constants/uiMessagesPtBR';
 import { useAuthContext } from '@/context/AuthContext';
 import { useCompanyContext } from '@/context/CompanyContext';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/buttons';
 import { Card } from '@/components/ui/Card';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Text } from '@/components/ui/Text';

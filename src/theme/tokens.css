@@ -1,5 +1,6 @@
 /**
- * Global theme — spacing, radii e tipografia em rem (raiz 100% = 16px típico).
+ * Tema global da aplicação.
+ * Carregado em `src/index.css` (@import '@/theme/tokens.css') antes de base e legacy.
  */
 :root {
   color-scheme: only light;
@@ -50,12 +51,6 @@
   --color-bg-app: #f0f2fa;
   /* Área principal ao estilo dashboard SaaS */
   --color-bg-main: #f8f9fa;
-  --color-bg-gradient: linear-gradient(
-    165deg,
-    #f5f3ff 0%,
-    #f0f9ff 42%,
-    #f5fcf8 100%
-  );
   --color-surface: #ffffff;
   --color-surface-soft: #faf9ff;
   --color-sidebar-bg: #ffffff;
@@ -89,18 +84,37 @@
   --color-success-text: #4a8f6f;
   --color-danger-text: #c75b6e;
 
-  --color-brand-gradient-start: #1e3a5f;
-  --color-brand-gradient-end: #2563eb;
-  --color-avatar-gradient-start: #7c3aed;
-  --color-avatar-gradient-end: #a78bfa;
+  /* Destaque de marca / avatar — cores chapadas (sem gradiente) */
+  --color-brand-text: #1d4ed8;
+  --color-avatar-bg: #7c3aed;
+  --color-avatar-text: #ffffff;
+
+  /* Botões — fundos sólidos; sombras neutras */
+  --color-button-primary-bg: var(--color-accent);
+  --color-button-primary-bg-hover: var(--color-accent-hover);
+  --color-button-primary-text: #ffffff;
+
+  --color-button-outline-bg: var(--color-surface);
+  --color-button-outline-bg-hover: var(--color-surface-soft);
+  --color-button-outline-text: var(--color-text);
+  --color-button-outline-border: var(--color-border-strong);
+  --color-button-outline-border-hover: var(--color-accent);
+
+  --color-button-ghost-text: var(--color-accent);
+  --color-button-ghost-bg-hover: var(--color-accent-soft);
+
+  --color-icon-button-text: var(--color-text-soft);
+  --color-icon-button-text-hover: var(--color-text);
+  --color-icon-button-bg-hover: var(--color-bg-main);
+  --color-icon-button-focus-ring: var(--color-nav-active-icon);
 
   /* Shadows (blur em px é comum; offsets mínimos) */
   --shadow-xs: 0 0.0625rem 0.125rem rgba(72, 62, 104, 0.04);
   --shadow-sm: 0 0.125rem 0.5rem rgba(72, 62, 104, 0.06);
   --shadow-md: 0 0.5rem 1.75rem rgba(72, 62, 104, 0.08);
   --shadow-header: 0 0.25rem 1.5rem rgba(72, 62, 104, 0.05);
-  --shadow-button: 0 0.25rem 1rem rgba(155, 155, 237, 0.38);
-  --shadow-button-hover: 0 0.375rem 1.375rem rgba(155, 155, 237, 0.42);
+  --shadow-button: 0 0.125rem 0.5rem rgba(63, 61, 82, 0.14);
+  --shadow-button-hover: 0 0.1875rem 0.625rem rgba(63, 61, 82, 0.2);
 
   /* Layout */
   --width-sidebar: 16.5rem;

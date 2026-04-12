@@ -1,0 +1,55 @@
+/**
+ * Botão só ícone — usa tokens globais (--color-icon-button-*).
+ */
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-icon-button-text);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.root:hover:not(:disabled) {
+  background: var(--color-icon-button-bg-hover);
+  color: var(--color-icon-button-text-hover);
+}
+
+.root:focus-visible {
+  outline: var(--space-px) solid var(--color-icon-button-focus-ring);
+  outline-offset: var(--space-1);
+}
+
+.root:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sizeSm {
+  width: 2rem;
+  height: 2rem;
+}
+
+.sizeMd {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.iconSlot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.iconSlot > :global(svg) {
+  width: 1.25rem;
+  height: 1.25rem;
+}

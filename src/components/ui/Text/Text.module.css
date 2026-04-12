@@ -75,14 +75,7 @@
   font-size: var(--font-size-xl);
   font-weight: 700;
   letter-spacing: -0.03em;
-  background: linear-gradient(
-    120deg,
-    var(--color-brand-gradient-start) 0%,
-    var(--color-brand-gradient-end) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--color-brand-text);
 }
 
 .mono {

@@ -2,6 +2,7 @@ import { PRIMARY_NAV_ITEMS } from '@/constants/navigation';
 import { UI_MESSAGES_PT_BR } from '@/constants/uiMessagesPtBR';
 import { ROUTES } from '@/constants/routes';
 import { useCompanyContext } from '@/context/CompanyContext';
+import { IconButton } from '@/components/ui/IconButton';
 import { cn } from '@/utils/cn';
 import { useCallback, useEffect, useState } from 'react';
 import { HiBars3, HiChevronRight, HiXMark } from 'react-icons/hi2';
@@ -72,9 +73,9 @@ export function AppSidebar() {
             <span className={styles.brandSubtitle}>{brandSubtitle}</span>
           </div>
         </div>
-        <button
+        <IconButton
           type="button"
-          className={styles.panelToggle}
+          size="md"
           onClick={toggleCollapsed}
           aria-expanded={!collapsed}
           aria-controls="sidebar-primary-nav"
@@ -89,12 +90,8 @@ export function AppSidebar() {
               : UI_MESSAGES_PT_BR.sidebarCollapse
           }
         >
-          {collapsed ? (
-            <HiBars3 className={styles.panelToggleIcon} />
-          ) : (
-            <HiXMark className={styles.panelToggleIcon} />
-          )}
-        </button>
+          {collapsed ? <HiBars3 aria-hidden /> : <HiXMark aria-hidden />}
+        </IconButton>
       </div>
 
       <nav
