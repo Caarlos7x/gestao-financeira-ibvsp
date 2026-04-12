@@ -1,3 +1,4 @@
+import { matchesProtectedAppRoute } from '@/constants/matchesAppRoute';
 import { UI_MESSAGES_PT_BR } from '@/constants/uiMessagesPtBR';
 import { useAuthContext } from '@/context/AuthContext';
 import { useCompanyContext } from '@/context/CompanyContext';
@@ -7,8 +8,10 @@ import { formatHeaderPersonName } from '@/features/app-shell/utils/formatHeaderP
 import { getUserInitials } from '@/features/app-shell/utils/getUserInitials';
 import { formatUserRolePt } from '@/utils/domainLabelsPtBR';
 import styles from '@/features/app-shell/components/AppHeader.module.css';
+import { useLocation } from 'react-router-dom';
 
 export function AppHeader() {
+  const { pathname } = useLocation();
   const { state, signOut } = useAuthContext();
   const { allowedCompanies, selectedCompanyId } = useCompanyContext();
   const navItem = useCurrentNavItem();
@@ -20,8 +23,9 @@ export function AppHeader() {
     (company) => company.id === selectedCompanyId
   );
 
-  const pageTitle =
-    navItem?.label ?? UI_MESSAGES_PT_BR.headerPageFallbackTitle;
+  const pageTitle = matchesProtectedAppRoute(pathname)
+    ? (navItem?.label ?? UI_MESSAGES_PT_BR.headerPageFallbackTitle)
+    : UI_MESSAGES_PT_BR.notFoundTitle;
   const pageSubtitle = selectedCompany?.name
     ? selectedCompany.name
     : UI_MESSAGES_PT_BR.headerDefaultSubtitle;

@@ -1,7 +1,7 @@
 export const ROUTES = {
   root: '/',
   login: '/login',
-  entries: '/lancamentos',
+  entries: '/entries',
   companies: '/companies',
   costCenters: '/cost-centers',
   budgets: '/budgets',

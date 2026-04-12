@@ -15,6 +15,7 @@ import { DashboardPage } from '@/features/dashboard/pages/DashboardPage';
 import { LancamentosPage } from '@/features/entries/pages/LancamentosPage';
 import { InvestmentsPage } from '@/features/investments/pages/InvestmentsPage';
 import { MinistriesPage } from '@/features/ministries/pages/MinistriesPage';
+import { NotFoundPage } from '@/features/not-found/pages/NotFoundPage';
 import { ChurchGeneralReportPage } from '@/features/reports/pages/ChurchGeneralReportPage';
 import { SettingsPage } from '@/features/settings/pages/SettingsPage';
 import { SuppliersPage } from '@/features/suppliers/pages/SuppliersPage';
@@ -52,6 +53,7 @@ export function AppRouter() {
             <Route path={ROUTES.investments} element={<InvestmentsPage />} />
             <Route path={ROUTES.audit} element={<AuditLogPage />} />
             <Route path={ROUTES.settings} element={<SettingsPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Route>
       </Routes>

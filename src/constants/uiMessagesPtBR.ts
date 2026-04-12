@@ -123,4 +123,9 @@ export const UI_MESSAGES_PT_BR = {
   dashboardLegendExpenseTx: 'Despesas (lançamentos)',
   dashboardLegendChurchExpense: 'Despesas (igreja)',
   dashboardLegendTotalExpense: 'Despesas totais',
+  notFoundCode: '404',
+  notFoundTitle: 'Página não encontrada',
+  notFoundDescription:
+    'O endereço que você acessou não existe ou foi movido. Verifique o link ou volte ao painel.',
+  notFoundBackHome: 'Ir para o painel',
 } as const;
