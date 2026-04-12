@@ -6,8 +6,10 @@ import { Text } from '@/components/ui/Text';
 import { UI_MESSAGES_PT_BR } from '@/constants/uiMessagesPtBR';
 import { ROUTES } from '@/constants/routes';
 import { isLocalTestLoginEnabled } from '@/config/localTestAuth';
+import { isFirebaseWebConfigured } from '@/services/firebase/firebaseConfig';
 import { useState, type FormEvent } from 'react';
 import { Navigate } from 'react-router-dom';
+import styles from '@/features/authentication/pages/LoginPage.module.css';
 
 export function LoginPage() {
   const { state, signInWithEmailPassword } = useAuthContext();
@@ -39,10 +41,17 @@ export function LoginPage() {
 
     try {
       await signInWithEmailPassword(parsed.data.email, parsed.data.password);
-    } catch {
-      setFormError(UI_MESSAGES_PT_BR.signInFailed);
+    } catch (cause: unknown) {
+      setFormError(
+        cause instanceof Error
+          ? cause.message
+          : UI_MESSAGES_PT_BR.signInFailed
+      );
     }
   }
+
+  const canSubmitWithPassword =
+    isFirebaseWebConfigured() || isLocalTestLoginEnabled();
 
   return (
     <Card className="auth-card-max" padded>
@@ -87,6 +96,27 @@ export function LoginPage() {
           {configMessage}
         </p>
       ) : null}
+      {!canSubmitWithPassword ? (
+        <div
+          className="auth-banner"
+          role="region"
+          aria-labelledby="deploy-auth-title"
+        >
+          <p id="deploy-auth-title" className={styles.deployTitle}>
+            {UI_MESSAGES_PT_BR.loginDeployNoFirebaseTitle}
+          </p>
+          <p className={styles.deployLead}>
+            {UI_MESSAGES_PT_BR.loginDeployNoFirebaseBody}
+          </p>
+          <ul className={`auth-test-users ${styles.deployList}`}>
+            <li>{UI_MESSAGES_PT_BR.loginDeployOptionDemo}</li>
+            <li>{UI_MESSAGES_PT_BR.loginDeployOptionFirebase}</li>
+          </ul>
+          <p className={styles.deployFootnote}>
+            {UI_MESSAGES_PT_BR.loginFormDisabledNoAuth}
+          </p>
+        </div>
+      ) : null}
       {formError ? (
         <p className="auth-error" role="alert">
           {formError}
@@ -127,7 +157,9 @@ export function LoginPage() {
             }
           />
         </label>
-        <Button type="submit">{UI_MESSAGES_PT_BR.continue}</Button>
+        <Button type="submit" disabled={!canSubmitWithPassword}>
+          {UI_MESSAGES_PT_BR.continue}
+        </Button>
       </form>
     </Card>
   );

@@ -7,6 +7,15 @@ export const UI_MESSAGES_PT_BR = {
   signInFailed: 'Falha no login. Verifique e-mail e senha.',
   loginLocalTestBanner:
     'Login local ativo (sem Firebase): use os e-mails e a senha definidos em src/config/localTestAuth.ts — padrão compartilhado para teste.',
+  loginDeployNoFirebaseTitle: 'Deploy sem Firebase configurado',
+  loginDeployNoFirebaseBody:
+    'Neste ambiente não há variáveis VITE_FIREBASE_*, então o login por e-mail/senha não funciona. Escolha uma opção:',
+  loginDeployOptionDemo:
+    'Demonstração: na Vercel, em Environment Variables, defina VITE_DEMO_SKIP_AUTH = true, faça um novo deploy e abra a URL raiz — você entra direto como administrador (mock), sem esta tela.',
+  loginDeployOptionFirebase:
+    'Produção real: cadastre todas as variáveis VITE_FIREBASE_* (igual ao .env.example), adicione o domínio da Vercel em Firebase → Authentication → Authorized domains, crie o usuário admin@sistema.test no console e faça redeploy.',
+  loginFormDisabledNoAuth:
+    'Formulário desativado até o Firebase estar configurado ou o modo demo estar ativo.',
   noCompaniesAssigned: 'Nenhuma empresa atribuída.',
   noCompanySelected: 'Selecione uma empresa para ver os indicadores.',
   noCompanyAccess:

@@ -61,6 +61,8 @@ Copie `.env.example` para `.env` e preencha conforme necessário:
 
 Nunca commite arquivo `.env` com segredos.
 
+O repositório inclui **`vercel.json`** com rewrite para `index.html`, para rotas como `/login` não retornarem 404 ao atualizar a página.
+
 ## Deploy na Vercel (demonstração rápida)
 
 1. No projeto na Vercel: **Settings → Environment Variables**, adicione **`VITE_DEMO_SKIP_AUTH`** = **`true`** (Production e/ou Preview).
