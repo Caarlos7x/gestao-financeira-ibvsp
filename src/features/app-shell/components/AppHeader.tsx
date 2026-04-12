@@ -1,3 +1,4 @@
+import { isTemporaryDirectAccess } from '@/config/authBypass';
 import { matchesProtectedAppRoute } from '@/constants/matchesAppRoute';
 import { UI_MESSAGES_PT_BR } from '@/constants/uiMessagesPtBR';
 import { useAuthContext } from '@/context/AuthContext';
@@ -50,14 +51,16 @@ export function AppHeader() {
             <div className={styles.avatar} aria-hidden>
               {getUserInitials(profile)}
             </div>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => signOut()}
-            >
-              {UI_MESSAGES_PT_BR.signOut}
-            </Button>
+            {!isTemporaryDirectAccess() ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => signOut()}
+              >
+                {UI_MESSAGES_PT_BR.signOut}
+              </Button>
+            ) : null}
           </div>
         ) : null}
       </div>

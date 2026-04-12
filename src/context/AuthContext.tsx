@@ -17,6 +17,7 @@ import {
   isAuthBypassEnabled,
   isDemoAuthBypassEnabled,
   isDevAuthBypassEnabled,
+  isTemporaryDirectAccess,
 } from '@/config/authBypass';
 import {
   isLocalTestLoginEnabled,
@@ -121,7 +122,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           return;
         }
 
-        if (isDemoAuthBypassEnabled()) {
+        if (isDemoAuthBypassEnabled() || isTemporaryDirectAccess()) {
           const adminSeed = await repository.getUserProfileForEmail(
             'admin@sistema.test'
           );
@@ -248,7 +249,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 
   const signOut = useCallback(async () => {
-    if (isDemoAuthBypassEnabled()) {
+    if (isDemoAuthBypassEnabled() || isTemporaryDirectAccess()) {
       return;
     }
     if (isDevAuthBypassEnabled()) {

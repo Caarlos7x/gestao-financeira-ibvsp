@@ -1,10 +1,16 @@
 /**
  * Bypass de autenticação (sem Firebase) para desenvolvimento local e demos em deploy.
  *
- * - **Local (`pnpm dev`)**: ativo por padrão; use `VITE_DEV_SKIP_AUTH=false` para testar Firebase.
- * - **Produção / Vercel**: use `VITE_DEMO_SKIP_AUTH=true` só para demonstração; qualquer pessoa
- *   com a URL acessa como admin. Desligue e use Firebase em ambiente real.
+ * **`TEMPORARY_DIRECT_ACCESS`**: quando `true`, não existe tela de login — entrada direta
+ * como administrador (perfil `admin@sistema.test` do mock). Altere para `false` e restaure
+ * a rota `/login` no router quando for reativar Firebase/login.
  */
+export const TEMPORARY_DIRECT_ACCESS = true;
+
+export function isTemporaryDirectAccess(): boolean {
+  return TEMPORARY_DIRECT_ACCESS;
+}
+
 export function isDevAuthBypassEnabled(): boolean {
   if (!import.meta.env.DEV) {
     return false;
@@ -17,5 +23,9 @@ export function isDemoAuthBypassEnabled(): boolean {
 }
 
 export function isAuthBypassEnabled(): boolean {
-  return isDevAuthBypassEnabled() || isDemoAuthBypassEnabled();
+  return (
+    TEMPORARY_DIRECT_ACCESS ||
+    isDevAuthBypassEnabled() ||
+    isDemoAuthBypassEnabled()
+  );
 }

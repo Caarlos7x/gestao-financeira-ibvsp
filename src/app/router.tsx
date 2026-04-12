@@ -1,7 +1,6 @@
 import { AppShell } from '@/features/app-shell';
 import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
 import { ROUTES } from '@/constants/routes';
-import { LoginPage } from '@/features/authentication/pages/LoginPage';
 import { AccountsPayablePage } from '@/features/accounts-payable/pages/AccountsPayablePage';
 import { AllocationsPage } from '@/features/allocations/pages/AllocationsPage';
 import { AssetsPage } from '@/features/assets/pages/AssetsPage';
@@ -19,13 +18,16 @@ import { NotFoundPage } from '@/features/not-found/pages/NotFoundPage';
 import { ChurchGeneralReportPage } from '@/features/reports/pages/ChurchGeneralReportPage';
 import { SettingsPage } from '@/features/settings/pages/SettingsPage';
 import { SuppliersPage } from '@/features/suppliers/pages/SuppliersPage';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 export function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTES.login} element={<LoginPage />} />
+        <Route
+          path={ROUTES.login}
+          element={<Navigate to={ROUTES.root} replace />}
+        />
         <Route element={<ProtectedRoute />}>
           <Route element={<AppShell />}>
             <Route path={ROUTES.root} element={<DashboardPage />} />

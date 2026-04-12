@@ -12,7 +12,7 @@ Este projeto nasce como **ação social**: voluntários e colaboradores desenvol
 - **Lançamentos** centralizados (movimentos financeiros, contas a pagar, fornecedores, despesas da igreja, orçamentos, ativos, ministérios, investimentos, extrato, rateios, etc.).
 - **Relatório geral (igreja)** com filtros e exportação (Excel/PDF).
 - **Configurações** com preferências de alertas e farol financeiro (persistência local no navegador).
-- Autenticação com **Firebase**; em desenvolvimento ou em deploy de **demonstração** é possível pular o login (veja `.env.example` e seção **Deploy na Vercel** abaixo).
+- Autenticação com **Firebase** (quando reativada no código). **Por enquanto** o acesso é **direto** (sem tela de login): veja `TEMPORARY_DIRECT_ACCESS` em `src/config/authBypass.ts`. Para demo na Vercel sem Firebase, `VITE_DEMO_SKIP_AUTH` continua opcional enquanto essa flag estiver ativa.
 
 Os dados de demonstração usam um **repositório mock** em memória (sessão), com contratos prontos para evoluir para planilhas (Google Apps Script), API ou banco.
 
