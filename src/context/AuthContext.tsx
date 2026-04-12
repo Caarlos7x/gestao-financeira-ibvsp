@@ -13,7 +13,15 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { isDevAuthBypassEnabled } from '@/config/devAuthBypass';
+import {
+  isAuthBypassEnabled,
+  isDemoAuthBypassEnabled,
+  isDevAuthBypassEnabled,
+} from '@/config/authBypass';
+import {
+  isLocalTestLoginEnabled,
+  matchLocalTestCredentials,
+} from '@/config/localTestAuth';
 import { getFirebaseAuth } from '@/services/firebase/firebaseAuth';
 import { isFirebaseWebConfigured } from '@/services/firebase/firebaseConfig';
 import { useRepository } from '@/context/RepositoryContext';
@@ -104,12 +112,45 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [state, setState] = useState<AuthState>({ status: 'loading' });
 
   useEffect(() => {
-    if (isDevAuthBypassEnabled()) {
+    if (isAuthBypassEnabled()) {
       let cancelled = false;
 
       (async () => {
         const companies = await repository.listCompanies();
         if (cancelled) {
+          return;
+        }
+
+        if (isDemoAuthBypassEnabled()) {
+          const adminSeed = await repository.getUserProfileForEmail(
+            'admin@sistema.test'
+          );
+          const companyIds =
+            adminSeed?.companyIds?.length && adminSeed.companyIds.length > 0
+              ? adminSeed.companyIds
+              : companies.map((c) => c.id);
+
+          const profileBase =
+            adminSeed ??
+            ({
+              userId: 'demo-bypass',
+              email: 'admin@sistema.test',
+              displayName: 'Administrador',
+              firstName: 'Admin',
+              lastName: undefined,
+              role: 'admin' as const,
+              companyIds,
+            } satisfies AppUserProfile);
+
+          setState({
+            status: 'signed_in',
+            firebaseUser: null,
+            profile: enrichProfileNames({
+              ...profileBase,
+              userId: 'demo-bypass',
+              companyIds,
+            }),
+          });
           return;
         }
 
@@ -131,6 +172,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       return () => {
         cancelled = true;
       };
+    }
+
+    if (isLocalTestLoginEnabled()) {
+      setState({ status: 'signed_out' });
+      return;
     }
 
     if (!isFirebaseWebConfigured()) {
@@ -166,19 +212,45 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signInWithEmailPassword = useCallback(
     async (email: string, password: string) => {
-      if (isDevAuthBypassEnabled()) {
+      if (isAuthBypassEnabled()) {
         return;
       }
+
+      const localEmail =
+        isLocalTestLoginEnabled() &&
+        matchLocalTestCredentials(email, password);
+      if (localEmail) {
+        const mockProfile =
+          await repository.getUserProfileForEmail(localEmail);
+        if (!mockProfile) {
+          throw new Error(
+            'Perfil não encontrado no mock para este e-mail. Verifique o seed.'
+          );
+        }
+        setState({
+          status: 'signed_in',
+          firebaseUser: null,
+          profile: enrichProfileNames({
+            ...mockProfile,
+            userId: 'local-test-login',
+          }),
+        });
+        return;
+      }
+
       if (!isFirebaseWebConfigured()) {
         throw new Error('Firebase não está configurado.');
       }
       const auth = getFirebaseAuth();
       await signInWithEmailAndPassword(auth, email.trim(), password);
     },
-    []
+    [repository]
   );
 
   const signOut = useCallback(async () => {
+    if (isDemoAuthBypassEnabled()) {
+      return;
+    }
     if (isDevAuthBypassEnabled()) {
       setState({ status: 'signed_out' });
       return;

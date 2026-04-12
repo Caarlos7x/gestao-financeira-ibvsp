@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { Text } from '@/components/ui/Text';
 import { UI_MESSAGES_PT_BR } from '@/constants/uiMessagesPtBR';
 import { ROUTES } from '@/constants/routes';
+import { isLocalTestLoginEnabled } from '@/config/localTestAuth';
 import { useState, type FormEvent } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -47,12 +48,17 @@ export function LoginPage() {
     <Card className="auth-card-max" padded>
       <Text variant="h1">Entrar</Text>
       <Text variant="lead" className="card-integrated-lead">
-        Autenticação com Firebase. Crie no console do Firebase dois usuários de teste com os
-        mesmos e-mails abaixo e defina a senha (sugestão:{' '}
-        <Text variant="mono" as="span">
-          Teste@123
-        </Text>
-        ).
+        {isLocalTestLoginEnabled()
+          ? 'Login de desenvolvimento sem Firebase — perfis vêm do mock do repositório.'
+          : 'Autenticação com Firebase. Crie no console do Firebase dois usuários de teste com os mesmos e-mails abaixo e defina a senha (sugestão: '}
+        {!isLocalTestLoginEnabled() ? (
+          <>
+            <Text variant="mono" as="span">
+              Teste@123
+            </Text>
+            ).
+          </>
+        ) : null}
       </Text>
       <ul className="auth-test-users">
         <li>
@@ -71,6 +77,11 @@ export function LoginPage() {
           da plataforma).
         </li>
       </ul>
+      {isLocalTestLoginEnabled() ? (
+        <p className="auth-banner" role="status">
+          {UI_MESSAGES_PT_BR.loginLocalTestBanner}
+        </p>
+      ) : null}
       {configMessage ? (
         <p className="auth-banner" role="alert">
           {configMessage}

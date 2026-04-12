@@ -5,6 +5,8 @@ export const UI_MESSAGES_PT_BR = {
   dashboardLoadFailed: 'Não foi possível carregar o painel.',
   invalidForm: 'Dados do formulário inválidos.',
   signInFailed: 'Falha no login. Verifique e-mail e senha.',
+  loginLocalTestBanner:
+    'Login local ativo (sem Firebase): use os e-mails e a senha definidos em src/config/localTestAuth.ts — padrão compartilhado para teste.',
   noCompaniesAssigned: 'Nenhuma empresa atribuída.',
   noCompanySelected: 'Selecione uma empresa para ver os indicadores.',
   noCompanyAccess:
