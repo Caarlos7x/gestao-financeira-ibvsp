@@ -60,6 +60,7 @@ function CostCentersTable({ repository, companyId }: CostCentersTableProps) {
   if (error) return <p className="state-message">{error}</p>;
 
   return (
+    <div className="table-responsive">
     <table className="data-table">
       <thead>
         <tr>
@@ -76,5 +77,6 @@ function CostCentersTable({ repository, companyId }: CostCentersTableProps) {
         ))}
       </tbody>
     </table>
+    </div>
   );
 }

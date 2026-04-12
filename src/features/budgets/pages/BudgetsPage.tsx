@@ -61,6 +61,7 @@ function BudgetsBody({ repository, companyId }: BudgetsBodyProps) {
   if (error) return <p className="state-message">{error}</p>;
 
   return (
+    <div className="table-responsive">
     <table className="data-table">
       <thead>
         <tr>
@@ -86,5 +87,6 @@ function BudgetsBody({ repository, companyId }: BudgetsBodyProps) {
         })}
       </tbody>
     </table>
+    </div>
   );
 }

@@ -14,6 +14,7 @@ export function CompaniesPage() {
       {allowedCompanies.length === 0 ? (
         <p className="state-message">{UI_MESSAGES_PT_BR.noCompaniesAssigned}</p>
       ) : (
+        <div className="table-responsive">
         <table className="data-table">
           <thead>
             <tr>
@@ -32,6 +33,7 @@ export function CompaniesPage() {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </section>
   );

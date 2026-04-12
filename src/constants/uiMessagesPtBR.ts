@@ -34,6 +34,8 @@ export const UI_MESSAGES_PT_BR = {
   continue: 'Entrar',
   sidebarCollapse: 'Recolher menu lateral',
   sidebarExpand: 'Expandir menu lateral',
+  navOpenMenu: 'Abrir menu de navegação',
+  navCloseMenu: 'Fechar menu de navegação',
   /** Subtítulo da marca no sidebar quando não há empresa */
   sidebarBrandFallback: 'Igreja Batista - Vila São Pedro',
   /** Título da página no topbar se a rota não estiver no menu */

@@ -59,6 +59,7 @@ function AuditBody({ repository, companyId }: AuditBodyProps) {
   if (error) return <p className="state-message">{error}</p>;
 
   return (
+    <div className="table-responsive">
     <table className="data-table">
       <thead>
         <tr>
@@ -81,5 +82,6 @@ function AuditBody({ repository, companyId }: AuditBodyProps) {
         ))}
       </tbody>
     </table>
+    </div>
   );
 }

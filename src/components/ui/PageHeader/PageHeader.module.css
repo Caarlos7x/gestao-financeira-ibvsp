@@ -1,8 +1,15 @@
 .root {
   margin-bottom: var(--space-5);
+  min-width: 0;
 }
 
 .lead {
   margin-top: var(--space-2);
   max-width: none;
+}
+
+@media (max-width: 40rem) {
+  .root {
+    margin-bottom: var(--space-4);
+  }
 }

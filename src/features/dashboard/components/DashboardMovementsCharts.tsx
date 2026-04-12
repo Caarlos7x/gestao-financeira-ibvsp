@@ -6,6 +6,7 @@ import type {
   DirectionTotals,
   MonthlyMovementRow,
 } from '@/features/dashboard/domain/aggregateMovements';
+import { useMatchMedia } from '@/hooks/useMatchMedia';
 import { formatCurrency } from '@/utils/formatCurrency';
 import {
   Bar,
@@ -36,12 +37,25 @@ function formatAxisValue(value: number): string {
   }).format(value);
 }
 
+const COMPACT_CHARTS_QUERY = '(max-width: 40rem)';
+
 export function DashboardMovementsCharts({
   monthlyRows,
   directionTotals,
   costCenterRows,
   currencyCode,
 }: DashboardMovementsChartsProps) {
+  const isCompactCharts = useMatchMedia(COMPACT_CHARTS_QUERY);
+  const axisTick = {
+    fill: DASHBOARD_CHART_COLORS.axis,
+    fontSize: isCompactCharts ? 9 : 11,
+  } as const;
+  const yAxisWidth = isCompactCharts ? 38 : 44;
+  const costCenterAxisWidth = isCompactCharts ? 104 : 132;
+  const pieRadii = isCompactCharts
+    ? { inner: 40, outer: 64 }
+    : { inner: 56, outer: 88 };
+
   const monthlyData = monthlyRows.map((row) => ({
     label: row.label,
     income: row.income,
@@ -101,7 +115,12 @@ export function DashboardMovementsCharts({
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                       data={monthlyData}
-                      margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
+                      margin={{
+                        top: 8,
+                        right: isCompactCharts ? 4 : 8,
+                        left: 0,
+                        bottom: isCompactCharts ? 4 : 0,
+                      }}
                     >
                       <CartesianGrid
                         strokeDasharray="3 3"
@@ -110,16 +129,16 @@ export function DashboardMovementsCharts({
                       />
                       <XAxis
                         dataKey="label"
-                        tick={{ fill: DASHBOARD_CHART_COLORS.axis, fontSize: 11 }}
+                        tick={axisTick}
                         tickLine={false}
                         axisLine={{ stroke: DASHBOARD_CHART_COLORS.grid }}
                       />
                       <YAxis
                         tickFormatter={formatAxisValue}
-                        tick={{ fill: DASHBOARD_CHART_COLORS.axis, fontSize: 11 }}
+                        tick={axisTick}
                         tickLine={false}
                         axisLine={{ stroke: DASHBOARD_CHART_COLORS.grid }}
-                        width={44}
+                        width={yAxisWidth}
                       />
                       <Tooltip
                         formatter={(value, name) => {
@@ -144,7 +163,12 @@ export function DashboardMovementsCharts({
                           border: '1px solid rgba(124, 112, 168, 0.22)',
                         }}
                       />
-                      <Legend wrapperStyle={{ fontSize: '0.8125rem' }} />
+                      <Legend
+                        wrapperStyle={{
+                          fontSize: isCompactCharts ? '0.6875rem' : '0.8125rem',
+                          lineHeight: '1.25',
+                        }}
+                      />
                       <Bar
                         name={UI_MESSAGES_PT_BR.dashboardLegendIncome}
                         dataKey="income"
@@ -186,13 +210,17 @@ export function DashboardMovementsCharts({
                         nameKey="name"
                         cx="50%"
                         cy="50%"
-                        innerRadius={56}
-                        outerRadius={88}
+                        innerRadius={pieRadii.inner}
+                        outerRadius={pieRadii.outer}
                         paddingAngle={2}
-                        label={({ name, percent }) => {
-                          const pct = Math.round((percent ?? 0) * 100);
-                          return `${name ?? ''} (${pct}%)`;
-                        }}
+                        label={
+                          isCompactCharts
+                            ? false
+                            : ({ name, percent }) => {
+                                const pct = Math.round((percent ?? 0) * 100);
+                                return `${name ?? ''} (${pct}%)`;
+                              }
+                        }
                       >
                         {pieData.map((entry) => (
                           <Cell key={entry.name} fill={entry.color} />
@@ -231,7 +259,12 @@ export function DashboardMovementsCharts({
                   <BarChart
                     layout="vertical"
                     data={costData}
-                    margin={{ top: 8, right: 24, left: 8, bottom: 8 }}
+                    margin={{
+                      top: 8,
+                      right: isCompactCharts ? 12 : 24,
+                      left: isCompactCharts ? 4 : 8,
+                      bottom: 8,
+                    }}
                   >
                     <CartesianGrid
                       strokeDasharray="3 3"
@@ -241,14 +274,14 @@ export function DashboardMovementsCharts({
                     <XAxis
                       type="number"
                       tickFormatter={formatAxisValue}
-                      tick={{ fill: DASHBOARD_CHART_COLORS.axis, fontSize: 11 }}
+                      tick={axisTick}
                       axisLine={{ stroke: DASHBOARD_CHART_COLORS.grid }}
                     />
                     <YAxis
                       type="category"
                       dataKey="name"
-                      width={132}
-                      tick={{ fill: DASHBOARD_CHART_COLORS.axis, fontSize: 11 }}
+                      width={costCenterAxisWidth}
+                      tick={axisTick}
                       axisLine={{ stroke: DASHBOARD_CHART_COLORS.grid }}
                     />
                     <Tooltip

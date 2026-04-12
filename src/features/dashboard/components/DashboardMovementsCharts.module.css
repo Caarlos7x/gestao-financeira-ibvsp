@@ -10,6 +10,16 @@
   letter-spacing: -0.02em;
 }
 
+@media (max-width: 40rem) {
+  .sectionTitle {
+    font-size: var(--font-size-lg);
+  }
+
+  .sectionLead {
+    font-size: var(--font-size-sm);
+  }
+}
+
 .sectionLead {
   margin: 0 0 var(--space-5);
   font-size: var(--font-size-md);
@@ -21,6 +31,7 @@
 .grid {
   display: grid;
   gap: var(--space-5);
+  min-width: 0;
 }
 
 @media (min-width: 56.25rem) {
@@ -32,6 +43,7 @@
 
 .chartCard {
   margin: 0;
+  min-width: 0;
 }
 
 .chartCardTitle {
@@ -50,11 +62,22 @@
 
 .chartWrap {
   width: 100%;
+  min-width: 0;
   height: 18rem;
 }
 
 .chartWrapTall {
   height: 20rem;
+}
+
+@media (max-width: 36rem) {
+  .chartWrap {
+    height: 14rem;
+  }
+
+  .chartWrapTall {
+    height: 16rem;
+  }
 }
 
 .empty {

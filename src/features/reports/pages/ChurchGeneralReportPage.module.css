@@ -25,6 +25,32 @@
   box-shadow: var(--shadow-xs);
 }
 
+@media (max-width: 36rem) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .exports {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .exports > button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .filters {
+    grid-template-columns: 1fr;
+    padding: var(--space-3);
+  }
+
+  .searchField {
+    grid-column: 1 / -1;
+  }
+}
+
 .filterField {
   display: flex;
   flex-direction: column;
@@ -56,6 +82,15 @@
   outline: none;
   border-color: var(--color-nav-active-icon);
   box-shadow: 0 0 0 var(--space-1) var(--color-nav-active-bg);
+}
+
+@media (max-width: 47.9375rem) {
+  .filterInput,
+  .filterSelect {
+    font-size: 1rem;
+    min-height: 2.75rem;
+    box-sizing: border-box;
+  }
 }
 
 .searchField {

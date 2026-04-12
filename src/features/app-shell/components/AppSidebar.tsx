@@ -12,7 +12,17 @@ import styles from '@/features/app-shell/components/AppSidebar.module.css';
 
 const SIDEBAR_COLLAPSED_STORAGE_KEY = 'financial-platform.sidebar.collapsed';
 
-export function AppSidebar() {
+export type AppSidebarProps = {
+  isMobileLayout?: boolean;
+  mobileDrawerOpen?: boolean;
+  onMobileDrawerClose?: () => void;
+};
+
+export function AppSidebar({
+  isMobileLayout = false,
+  mobileDrawerOpen = false,
+  onMobileDrawerClose,
+}: AppSidebarProps) {
   const { allowedCompanies, selectedCompanyId } = useCompanyContext();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -47,10 +57,27 @@ export function AppSidebar() {
       ? UI_MESSAGES_PT_BR.noCompaniesOption
       : UI_MESSAGES_PT_BR.sidebarBrandFallback);
 
+  const showLabels = isMobileLayout || !collapsed;
+
+  const handleBrandToggle = () => {
+    if (isMobileLayout) {
+      onMobileDrawerClose?.();
+      return;
+    }
+    toggleCollapsed();
+  };
+
   return (
     <aside
-      className={cn(styles.aside, collapsed && styles.asideCollapsed)}
+      className={cn(
+        styles.aside,
+        isMobileLayout && styles.asideMobile,
+        isMobileLayout && mobileDrawerOpen && styles.asideMobileOpen,
+        !isMobileLayout && collapsed && styles.asideCollapsed
+      )}
       data-collapsed={collapsed ? 'true' : 'false'}
+      data-mobile={isMobileLayout ? 'true' : 'false'}
+      inert={isMobileLayout && !mobileDrawerOpen ? true : undefined}
     >
       <div className={styles.brandRow}>
         <div className={styles.brandLeft}>
@@ -65,7 +92,10 @@ export function AppSidebar() {
             />
           </div>
           <div
-            className={cn(styles.brandText, collapsed && styles.brandTextHiddenWhenCollapsed)}
+            className={cn(
+              styles.brandText,
+              !showLabels && styles.brandTextHiddenWhenCollapsed
+            )}
           >
             <span className={styles.brandTitle}>
               {UI_MESSAGES_PT_BR.appProductTitle}
@@ -76,21 +106,31 @@ export function AppSidebar() {
         <IconButton
           type="button"
           size="md"
-          onClick={toggleCollapsed}
-          aria-expanded={!collapsed}
+          onClick={handleBrandToggle}
+          aria-expanded={
+            isMobileLayout ? mobileDrawerOpen : !collapsed
+          }
           aria-controls="sidebar-primary-nav"
           aria-label={
-            collapsed
-              ? UI_MESSAGES_PT_BR.sidebarExpand
-              : UI_MESSAGES_PT_BR.sidebarCollapse
+            isMobileLayout
+              ? UI_MESSAGES_PT_BR.navCloseMenu
+              : collapsed
+                ? UI_MESSAGES_PT_BR.sidebarExpand
+                : UI_MESSAGES_PT_BR.sidebarCollapse
           }
           title={
-            collapsed
-              ? UI_MESSAGES_PT_BR.sidebarExpand
-              : UI_MESSAGES_PT_BR.sidebarCollapse
+            isMobileLayout
+              ? UI_MESSAGES_PT_BR.navCloseMenu
+              : collapsed
+                ? UI_MESSAGES_PT_BR.sidebarExpand
+                : UI_MESSAGES_PT_BR.sidebarCollapse
           }
         >
-          {collapsed ? <HiBars3 aria-hidden /> : <HiXMark aria-hidden />}
+          {isMobileLayout || !collapsed ? (
+            <HiXMark aria-hidden />
+          ) : (
+            <HiBars3 aria-hidden />
+          )}
         </IconButton>
       </div>
 
@@ -107,7 +147,12 @@ export function AppSidebar() {
               cn(styles.link, isActive && styles.linkActive)
             }
             end={item.to === ROUTES.root}
-            title={collapsed ? item.label : undefined}
+            title={!showLabels ? item.label : undefined}
+            onClick={() => {
+              if (isMobileLayout) {
+                onMobileDrawerClose?.();
+              }
+            }}
           >
             {({ isActive }) => (
               <span className={styles.linkInner}>
@@ -115,7 +160,7 @@ export function AppSidebar() {
                   <SidebarNavIcon to={item.to} className={styles.icon} />
                 </span>
                 <span className={styles.label}>{item.label}</span>
-                {isActive && !collapsed ? (
+                {isActive && showLabels ? (
                   <HiChevronRight
                     className={styles.chevron}
                     aria-hidden

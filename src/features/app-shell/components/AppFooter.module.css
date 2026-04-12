@@ -1,6 +1,9 @@
 .footer {
   margin-top: auto;
   padding: var(--space-4) var(--space-6);
+  padding-left: max(var(--space-6), env(safe-area-inset-left));
+  padding-right: max(var(--space-6), env(safe-area-inset-right));
+  padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
   border-top: var(--space-px) solid var(--color-topbar-border);
   background: var(--color-surface);
 }

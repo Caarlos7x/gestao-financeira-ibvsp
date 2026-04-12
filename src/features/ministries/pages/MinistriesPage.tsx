@@ -59,6 +59,7 @@ function MinistriesBody({ repository, companyId }: MinistriesBodyProps) {
   if (error) return <p className="state-message">{error}</p>;
 
   return (
+    <div className="table-responsive">
     <table className="data-table">
       <thead>
         <tr>
@@ -77,5 +78,6 @@ function MinistriesBody({ repository, companyId }: MinistriesBodyProps) {
         ))}
       </tbody>
     </table>
+    </div>
   );
 }

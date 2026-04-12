@@ -59,6 +59,7 @@ function SuppliersBody({ repository, companyId }: SuppliersBodyProps) {
   if (error) return <p className="state-message">{error}</p>;
 
   return (
+    <div className="table-responsive">
     <table className="data-table">
       <thead>
         <tr>
@@ -75,5 +76,6 @@ function SuppliersBody({ repository, companyId }: SuppliersBodyProps) {
         ))}
       </tbody>
     </table>
+    </div>
   );
 }

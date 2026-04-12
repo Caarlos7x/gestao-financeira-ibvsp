@@ -82,4 +82,32 @@
   font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
   font-size: 0.84em;
   color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 40rem) {
+  .display {
+    font-size: var(--font-size-3xl);
+    letter-spacing: -0.02em;
+  }
+
+  .h1 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .h2 {
+    font-size: var(--font-size-xl);
+  }
+
+  .h3 {
+    font-size: var(--font-size-base);
+  }
+
+  .lead {
+    font-size: var(--font-size-md);
+  }
+
+  .brand {
+    font-size: var(--font-size-lg);
+  }
 }

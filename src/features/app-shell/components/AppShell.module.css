@@ -5,6 +5,17 @@
   background: var(--color-bg-main);
 }
 
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: rgba(15, 23, 42, 0.45);
+}
+
 .body {
   display: flex;
   flex: 1;
@@ -30,10 +41,13 @@
 
 @media (max-width: 56.25rem) {
   .body {
-    flex-direction: column;
+    display: block;
   }
 
   .main {
     padding: var(--space-4) var(--space-4) var(--space-6);
+    padding-left: max(var(--space-4), env(safe-area-inset-left));
+    padding-right: max(var(--space-4), env(safe-area-inset-right));
+    padding-bottom: max(var(--space-6), env(safe-area-inset-bottom));
   }
 }

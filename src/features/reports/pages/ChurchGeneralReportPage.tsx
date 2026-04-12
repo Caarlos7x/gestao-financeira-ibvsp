@@ -394,6 +394,7 @@ function ChurchReportBody({ repository, companyId }: ChurchReportBodyProps) {
                 : UI_MESSAGES_PT_BR.churchReportNoRowsFiltered}
             </p>
           ) : (
+            <div className="table-responsive">
             <table className="data-table">
               <thead>
                 <tr>
@@ -422,6 +423,7 @@ function ChurchReportBody({ repository, companyId }: ChurchReportBodyProps) {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </Card>
       </div>

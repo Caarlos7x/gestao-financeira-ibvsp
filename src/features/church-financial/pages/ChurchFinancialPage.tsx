@@ -61,6 +61,7 @@ function ChurchExpensesBody({ repository, companyId }: ChurchExpensesBodyProps) 
   if (error) return <p className="state-message">{error}</p>;
 
   return (
+    <div className="table-responsive">
     <table className="data-table">
       <thead>
         <tr>
@@ -81,5 +82,6 @@ function ChurchExpensesBody({ repository, companyId }: ChurchExpensesBodyProps) 
         ))}
       </tbody>
     </table>
+    </div>
   );
 }

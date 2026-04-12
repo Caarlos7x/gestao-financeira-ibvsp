@@ -61,6 +61,7 @@ function BankLinesBody({ repository, companyId }: BankLinesBodyProps) {
   if (error) return <p className="state-message">{error}</p>;
 
   return (
+    <div className="table-responsive">
     <table className="data-table">
       <thead>
         <tr>
@@ -83,5 +84,6 @@ function BankLinesBody({ repository, companyId }: BankLinesBodyProps) {
         ))}
       </tbody>
     </table>
+    </div>
   );
 }

@@ -1,7 +1,9 @@
 .wrap {
+  box-sizing: border-box;
   max-width: 28rem;
   margin: 0 auto;
-  padding: var(--space-8) var(--space-4);
+  padding: var(--space-8) max(var(--space-4), env(safe-area-inset-left))
+    var(--space-8) max(var(--space-4), env(safe-area-inset-right));
   text-align: center;
 }
 
@@ -34,4 +36,16 @@
   flex-wrap: wrap;
   gap: var(--space-3);
   justify-content: center;
+}
+
+@media (max-width: 36rem) {
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions > button {
+    width: 100%;
+    justify-content: center;
+  }
 }
